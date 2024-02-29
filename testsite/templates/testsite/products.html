@@ -5,6 +5,7 @@
     <title>Title</title>
 </head>
 <body>
+    <a href="{% url 'user_profile' %}"><button type="submit">Профиль</button></a>
     {% for product in products %}
         <div>
             <h1><a href="{% url 'product_detail' pk=product.pk %}">Название продукта: {{ product }}</a></h1>

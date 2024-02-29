@@ -1,4 +1,7 @@
+from django.contrib.auth.models import User
 from django.db import models
+from django.db.models.signals import post_save
+from django.dispatch import receiver
 
 
 class Lesson(models.Model):
@@ -29,6 +32,7 @@ class Product(models.Model):
 
 class Group(models.Model):
     name = models.CharField(max_length=64)
+    users = models.ManyToManyField(User)
     is_opened = models.BooleanField(default=True)
     to_product = models.ForeignKey(Product, on_delete=models.CASCADE)
 
@@ -39,14 +43,22 @@ class Group(models.Model):
         return self.name
 
 
-class User(models.Model):
-    login = models.CharField(max_length=64)
-    password = models.CharField(max_length=256)
+class Profile(models.Model):
+    user = models.OneToOneField(User, on_delete=models.CASCADE)
     purchased_products = models.ManyToManyField(Product, blank=True)
-    group = models.ForeignKey(Group, on_delete=models.CASCADE, blank=True, null=True)
+    groups = models.ManyToManyField(Group, blank=True)
 
     class Meta:
         db_table = 'user'
 
+    @receiver(post_save, sender=User)
+    def create_user_profile(sender, instance, created, **kwargs):
+        if created:
+            Profile.objects.create(user=instance)
+
+    @receiver(post_save, sender=User)
+    def save_user_profile(sender, instance, **kwargs):
+        instance.profile.save()
+
     def __str__(self):
-        return self.login
+        return str(self.user)

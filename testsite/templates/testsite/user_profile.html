@@ -5,6 +5,14 @@
     <title>Title</title>
 </head>
 <body>
-
+    <p>{{ user.username }}</p>
+    <a href="{% url 'logout' %}"><button type="submit">Выйти</button></a>
+    <p>Купленные продукты:</p>
+    {% for product in products %}
+        <div>
+            <h4><a href="{% url 'product_detail' pk=product.pk %}">{{ product }}</a></h4>
+        </div>
+    {% endfor %}
+    <a href="{% url 'all_products' %}"><button type="submit">Вернуться на главную</button></a>
 </body>
 </html>

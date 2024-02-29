@@ -5,6 +5,7 @@
     <title>Title</title>
 </head>
 <body>
+    <h2>Включенные уроки:</h2>
     {% for lesson in product.included_lessons.all %}
         <p>{{ lesson }}</p>
     {% endfor %}
