@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+    {% for product in products %}
+        <div>
+            <h1><a href="{% url 'product_detail' pk=product.pk %}">Название продукта: {{ product }}</a></h1>
+            <h2>Кол-во уроков: {{ product.included_lessons.all.count }}</h2>
+            <p>Начало: {{ product.start_time }}</p>
+            <p>Автор: {{ product.author }}</p>
+        </div>
+    {% endfor %}
+</body>
+</html>

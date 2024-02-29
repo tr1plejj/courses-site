@@ -1,0 +1,13 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+    {% for lesson in product.included_lessons.all %}
+        <p>{{ lesson }}</p>
+    {% endfor %}
+    <button type="submit"><a href="{% url 'add_product' pk=product.pk %}">Добавить продукт</a></button>
+</body>
+</html>
