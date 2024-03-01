@@ -19,8 +19,8 @@ class Product(models.Model):
     author = models.CharField(max_length=64)
     name = models.CharField(max_length=64)
     start_time = models.DateTimeField()
-    max_users_in_group = models.IntegerField()
     min_users_in_group = models.IntegerField()
+    max_users_in_group = models.IntegerField()
     included_lessons = models.ManyToManyField(Lesson, related_name='lessons')
 
     class Meta:
