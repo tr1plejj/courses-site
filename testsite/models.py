@@ -21,7 +21,7 @@ class Product(models.Model):
     start_time = models.DateTimeField()
     max_users_in_group = models.IntegerField()
     min_users_in_group = models.IntegerField()
-    included_lessons = models.ManyToManyField(Lesson)
+    included_lessons = models.ManyToManyField(Lesson, related_name='lessons')
 
     class Meta:
         db_table = 'product'
@@ -32,9 +32,9 @@ class Product(models.Model):
 
 class Group(models.Model):
     name = models.CharField(max_length=64)
-    users = models.ManyToManyField(User)
+    users = models.ManyToManyField(User, blank=True, related_name='users')
     is_opened = models.BooleanField(default=True)
-    to_product = models.ForeignKey(Product, on_delete=models.CASCADE)
+    to_product = models.ForeignKey(Product, on_delete=models.CASCADE, related_name='product')
 
     class Meta:
         db_table = 'group'
@@ -45,8 +45,8 @@ class Group(models.Model):
 
 class Profile(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
-    purchased_products = models.ManyToManyField(Product, blank=True)
-    groups = models.ManyToManyField(Group, blank=True)
+    purchased_products = models.ManyToManyField(Product, blank=True, related_name='products')
+    groups = models.ManyToManyField(Group, blank=True, related_name='groups')
 
     class Meta:
         db_table = 'user'

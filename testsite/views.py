@@ -1,12 +1,20 @@
 from django.contrib.auth.decorators import login_required
 from django.shortcuts import render, get_object_or_404, redirect
+from rest_framework import viewsets
 
 from .forms import RegisterForm
 from .models import Product, Profile
+from .serializers import ProductSerializer
+
+
+class ProductApiView(viewsets.ReadOnlyModelViewSet):
+    queryset = Product.objects.all()
+    serializer_class = ProductSerializer
 
 
 def all_products(request):
     products = Product.objects.all()
+    # print(Product.objects.select_related())
     return render(request, 'testsite/products.html', {'products': products})
 
 
@@ -17,7 +25,6 @@ def product_detail(request, pk):
 
 @login_required
 def add_product(request, pk):
-    # pk - id продукта
     user = Profile.objects.get(user=request.user.pk)
     product = Product.objects.get(pk=pk)
     user.purchased_products.add(product)
